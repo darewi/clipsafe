@@ -2,7 +2,7 @@
 # This file is part of cliPSafe.
 # See gpl.txt file for license details.
 
-VERSION = 1.1
+VERSION = 1.2
 
 SRC = clipsafe.hdr Pwsafe.pl Complete.pl clipsafe.pl
 
@@ -18,6 +18,6 @@ clean:
 dist: clipsafe
 	@echo creating dist tarball
 	@tar czf clipsafe-${VERSION}.tar.gz clipsafe
-	@sha1sum -b clipsafe-${VERSION}.tar.gz > clipsafe-${VERSION}.tar.gz.sha1
+	@sha256sum -b clipsafe-${VERSION}.tar.gz > clipsafe-${VERSION}.tar.gz.sha256
 
 .PHONY: clean dist

@@ -65,7 +65,7 @@ sub printentry {
     print "\n";
 }
 
-sub show {
+sub cat {
     my ($pwsafe, $pwd, $entry, $flatlist) = @_;
     my ($g_matches, $e_matches);
     my $count = 0;
@@ -110,7 +110,7 @@ sub show {
     }
 }
 
-sub cg {
+sub cd {
     my ($pwsafe, $pwd, $entry) = @_;
 
     if ($entry =~ m/\/|\\/) {
@@ -131,14 +131,15 @@ sub cg {
 sub printhelp {
     print "Valid commands are:\n";
     print "    ls [group]      - list groups & entries\n";
-    print "    cg <group>      - change group (root = /)\n";
-    print "    show [-l] <rxp> - show an entry, use -l to treat db as a flat list\n";
-    print "    exit            - exit clipsafe\n\n";
-    print "Commands ls and cg support tab completion on group names\n\n";
+    print "    cd [group]      - change directory; 'cd /' or 'cd' alone takes you back to the root\n";
+    print "    cat [-i] <rxp>  - display an entry; use -i to ignore groups and search entire db\n";
+    print "    help|?          - display this help message\n";
+    print "    exit|quit       - exit clipsafe\n\n";
+    print "Commands ls and cd support tab completion on group names\n\n";
 }
 
 sub usage {
-    print "cliPSafe version 1.0, Copyright (C) 2008 Ross Palmer Mohn\n";
+    print "cliPSafe version 1.2, Copyright (C) 2008-2014 Ross Palmer Mohn\n";
     print "cliPSafe comes with ABSOLUTELY NO WARRANTY. This is free software,\n";
     print "and you are welcome to redistribute it under certain conditions.\n\n";
 
@@ -204,7 +205,7 @@ my $pwd = "";
 print "\n";
 
 if ($rxp ne "") {
-    show ($pwsafe, "", "$rxp", 1);
+    cat ($pwsafe, "", "$rxp", 1);
     exit;
 }
 
@@ -221,15 +222,15 @@ while(1) {
         ls ($pwsafe, $1);
     } elsif ($cmd =~ m/^\s*ls\s*$/i) {
         ls ($pwsafe, $pwd);
-    } elsif ($cmd =~ m/^\s*c(g|d)\s+(.+)\s*$/i) {
-        $pwd = cg ($pwsafe, $pwd, "$2");
-    } elsif ($cmd =~ m/^\s*c(g|d)\s*$/i) {
-        $pwd = cg ($pwsafe, "$pwd", "/");
-    } elsif ($cmd =~ m/^\s*show\s+-l\s+(.+)\s*$/i) {
-        show ($pwsafe, $pwd, "$1", 1);
-    } elsif ($cmd =~ m/^\s*show\s+(.+)\s*$/i) {
-        show ($pwsafe, $pwd, "$1", 0);
-    } elsif ($cmd =~ m/^\s*help\s*$/i) {
+    } elsif ($cmd =~ m/^\s*c(d|g)\s+(.+)\s*$/i) {
+        $pwd = cd ($pwsafe, $pwd, "$2");
+    } elsif ($cmd =~ m/^\s*c(d|g)\s*$/i) {
+        $pwd = cd ($pwsafe, "$pwd", "/");
+    } elsif ($cmd =~ m/^\s*(cat|show)\s+-(i|l)\s+(.+)\s*$/i) {
+        cat ($pwsafe, $pwd, "$3", 1);
+    } elsif ($cmd =~ m/^\s*(cat|show)\s+(.+)\s*$/i) {
+        cat ($pwsafe, $pwd, "$2", 0);
+    } elsif ($cmd =~ m/^\s*(help|\?)\s*$/i) {
         printhelp;
     } else {
         print "Bad command: $cmd\n\n";
@@ -237,4 +238,3 @@ while(1) {
     }
 }
 #=#=#=# cliPSafe #=#=#=#
-
