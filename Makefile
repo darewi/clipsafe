@@ -13,7 +13,7 @@ clipsafe: ${SRC}
 
 clean:
 	@echo cleaning
-	@rm -f clipsafe clipsafe-${VERSION}.tar.gz clipsafe-${VERSION}.tar.gz.sha1
+	@rm -f clipsafe clipsafe-${VERSION}.tar.gz clipsafe-${VERSION}.tar.gz.sha256
 
 dist: clipsafe
 	@echo creating dist tarball
